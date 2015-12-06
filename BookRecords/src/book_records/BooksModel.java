@@ -11,11 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class BooksModel extends DefaultTableModel {
 	private ArrayList<Book> allRows;
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
+	
 	public BooksModel() {
 		super();
 		allRows = new ArrayList<Book>();
@@ -84,9 +80,10 @@ public class BooksModel extends DefaultTableModel {
 		render();
 	}
 
-	public void editBook(int row, EditDialog editDialog) {
+	public void editBook(int row, ModalDialog editDialog) {
 		int index = (row - 1);
 		if (getRowCount() >= row) {
+
 			editDialog.setValues(getBook(index));
 			editDialog.setVisible(true);
 			if (!editDialog.isCloseButton()) {
@@ -121,5 +118,21 @@ public class BooksModel extends DefaultTableModel {
 
 	public Book getBook(int position) {
 		return allRows.get(position);
+	}
+
+	public void addBook(ModalDialog addDialog) {
+		addDialog.setVisible(true);
+		if (!addDialog.isCloseButton()) {
+			String[] output = addDialog.getValues();
+
+			try {
+				Book addedBoook = chooseBook(output);
+				allRows.add(addedBoook);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			addDialog.setCloseButton(true);
+		}
+		render();
 	}
 }
