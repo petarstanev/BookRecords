@@ -67,9 +67,7 @@ public abstract class Book {
 	}
 	
 	public String[] getBookAsRow(){
-		SimpleDateFormat fmt = new SimpleDateFormat("dd-MMM-yyyy");
 	    String dateFormatted = publicationDateAsString(publicationDate);
-	    
 	    
 		return new String[] {null, name, author, publisher,
 				dateFormatted,null,null, Float.toString(price)};
