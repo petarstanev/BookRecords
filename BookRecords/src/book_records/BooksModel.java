@@ -84,7 +84,7 @@ public class BooksModel extends DefaultTableModel {
 		render();
 	}
 
-	public void editBook(int row, ModalDialog editDialog) {
+	public void editBook(int row, EditDialog editDialog) {
 		int index = (row - 1);
 		if (getRowCount() >= row) {
 			editDialog.setValues(getBook(index));
@@ -103,6 +103,10 @@ public class BooksModel extends DefaultTableModel {
 		}
 		render();
 	}
+	
+	public void addBook(EditDialog addDialog){
+		
+	}
 
 	public void render() {
 		setRowCount(0);
@@ -110,7 +114,7 @@ public class BooksModel extends DefaultTableModel {
 		for (int i = 0; i < allRows.size(); i++) {
 
 			String[] row = allRows.get(i).getBookAsRow();
-			row[0] = String.valueOf(i);
+			row[0] = String.valueOf(i+1);
 			addRow(row);
 		}
 	}

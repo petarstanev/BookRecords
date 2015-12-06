@@ -160,7 +160,7 @@ public class Frame extends JFrame {
 		btnEdit.setBounds(10, 144, 89, 23);
 		contentPane.add(btnEdit);
 
-		ModalDialog editDialog = new ModalDialog(this, "Edit Book.", "Edit", 1);
+		EditDialog editDialog = new EditDialog(this, "Edit Book.", "Edit", 1);
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = (Integer) spinner.getValue();
@@ -179,6 +179,11 @@ public class Frame extends JFrame {
 		contentPane.add(btnRemove);
 
 		JButton btnAdd = new JButton("Add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//model.editBook(row, editDialog);
+			}
+		});
 		btnAdd.setBounds(10, 212, 89, 23);
 		contentPane.add(btnAdd);
 	}

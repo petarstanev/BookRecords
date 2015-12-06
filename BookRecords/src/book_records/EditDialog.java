@@ -25,7 +25,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 
-public class ModalDialog extends JDialog {
+public class EditDialog extends JDialog {
 	private JTextField textName;
 	private JTextField textAuthor;
 	private JTextField textPublisher;
@@ -35,7 +35,7 @@ public class ModalDialog extends JDialog {
 	private JTextField textPrice;
 	private boolean closeButton;
 
-	public ModalDialog(JFrame jframe, String title, String message, int value) {
+	public EditDialog(JFrame jframe, String title, String message, int value) {
 		
 		super(jframe, title, true);
 		closeButton=true;
@@ -105,15 +105,7 @@ public class ModalDialog extends JDialog {
 		textPrice.setColumns(10);
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
-//		JButton btnCancel = new JButton("Cancel");
-//		btnCancel.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				dispose();
-//			}
-//		});
-//		buttonPane.add(btnCancel);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		// pack();
 		setBounds(100, 100, 700, 159);
 	}
 
