@@ -11,8 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.BoxLayout;
 
 import java.awt.GridLayout;
@@ -38,14 +41,15 @@ import java.io.IOException;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JPopupMenu;
+
 import java.awt.Color;
 
 public class Frame extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private BooksModel model;
 	private JSpinner spinner;
-	private boolean close = true;//
 
 	/**
 	 * Launch the application.
@@ -74,9 +78,11 @@ public class Frame extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		BooksModel model = new BooksModel();
+		model = new BooksModel();
 
 		table = new JTable(model);
+		table.setRowSelectionAllowed(true);
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		String dir = System.getProperty("user.dir");
 		JFileChooser fileChososer = new JFileChooser(dir);
@@ -113,7 +119,7 @@ public class Frame extends JFrame {
 							.getSelectedFile());
 					for (int i = 0; i < model.getRowCount(); i++) {
 						String appender = "";
-						for (int j = 0; j < model.getColumnCount(); j++) {
+						for (int j = 1; j < model.getColumnCount(); j++) {
 							writer.write(appender
 									+ (String) table.getValueAt(i, j));
 							appender = ",";
@@ -141,14 +147,36 @@ public class Frame extends JFrame {
 		contentPane.add(btnClose);
 
 		table.setBounds(109, 11, 665, 434);
-		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setLocation(120, 10);
-		scrollPane.setSize(800, 620);
+
+		JScrollPane scrollPaneList = new JScrollPane(table);
+		scrollPaneList.setLocation(120, 10);
+		scrollPaneList.setSize(800, 620);
 
 		JTabbedPane tabbedPane = new JTabbedPane();
+
+		ChangeListener changeListener = new ChangeListener() {
+			public void stateChanged(ChangeEvent changeEvent) {
+				JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent
+						.getSource();
+				int index = sourceTabbedPane.getSelectedIndex();
+
+				if (sourceTabbedPane.getTitleAt(index).equals("List view")) {
+					model.render();
+
+				} else if (sourceTabbedPane.getTitleAt(index).equals(
+						"Details view")) {
+					model.renderSelected(table.getSelectedRows());
+				}
+			}
+		};
+
+		tabbedPane.addChangeListener(changeListener);
+
 		tabbedPane.setTabPlacement(JTabbedPane.BOTTOM);
 		tabbedPane.setBounds(120, 10, 800, 640);
-		tabbedPane.addTab("List view", scrollPane);
+		tabbedPane.addTab("List view", scrollPaneList);
+		tabbedPane.addTab("Details view", null);// use null because I use same
+												// scrollPane, table and model.
 
 		contentPane.add(tabbedPane);
 
@@ -164,7 +192,7 @@ public class Frame extends JFrame {
 		btnEdit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row = (Integer) spinner.getValue();
-				model.editBook(row,editDialog);
+				model.editBook(row, editDialog);
 			}
 		});
 
@@ -187,5 +215,6 @@ public class Frame extends JFrame {
 		});
 		btnAdd.setBounds(10, 212, 89, 23);
 		contentPane.add(btnAdd);
+
 	}
 }

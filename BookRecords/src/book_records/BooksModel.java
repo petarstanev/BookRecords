@@ -11,7 +11,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class BooksModel extends DefaultTableModel {
 	private ArrayList<Book> allRows;
-	
+
 	public BooksModel() {
 		super();
 		allRows = new ArrayList<Book>();
@@ -46,10 +46,10 @@ public class BooksModel extends DefaultTableModel {
 		}
 	}
 
-	private Book chooseBook(String[] info) throws ParseException{
+	private Book chooseBook(String[] info) throws ParseException {
 		Book book;
 		switch (info[4]) {
-			case "Fictional Book":
+		case "Fictional Book":
 			book = new FictionalBook(info);
 			;
 			break;
@@ -61,11 +61,16 @@ public class BooksModel extends DefaultTableModel {
 			break;
 		default:
 			book = null;
-			System.out.println("Invalid type of book.  -" + info[4]
-					+ "- ");
+			System.out.println("Invalid type of book.  -" + info[4] + "- ");
 			break;
 		}
 		return book;
+	}
+
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		// all cells false
+		return false;
 	}
 
 	public void removeBook(int row) {
@@ -74,7 +79,8 @@ public class BooksModel extends DefaultTableModel {
 			allRows.remove(index);
 			for (int i = index; i < allRows.size(); i++) {
 				// every next row must decrease row number by one.
-			//	allRows.get(i).setRowNumber(allRows.get(i).getRowNumber() - 1);
+				// allRows.get(i).setRowNumber(allRows.get(i).getRowNumber() -
+				// 1);
 			}
 		}
 		render();
@@ -100,20 +106,32 @@ public class BooksModel extends DefaultTableModel {
 		}
 		render();
 	}
-	
-	public void addBook(EditDialog addDialog){
-		
+
+	public void addBook(EditDialog addDialog) {
+
 	}
 
 	public void render() {
 		setRowCount(0);
-		
+
 		for (int i = 0; i < allRows.size(); i++) {
 
 			String[] row = allRows.get(i).getBookAsRow();
-			row[0] = String.valueOf(i+1);
+			row[0] = String.valueOf(i + 1);
 			addRow(row);
 		}
+	}
+	
+	public void renderSelected(int[] selectedRows) {
+		setRowCount(0);
+		int i = 1;
+				
+		for (int j : selectedRows) {
+			String[] row = allRows.get(j).getBookAsRow();
+			row[0] = String.valueOf(i);
+			addRow(row);
+			i++;
+		}		
 	}
 
 	public Book getBook(int position) {
@@ -135,4 +153,6 @@ public class BooksModel extends DefaultTableModel {
 		}
 		render();
 	}
+	
+
 }
