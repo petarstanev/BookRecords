@@ -43,11 +43,13 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.JPopupMenu;
 
 import java.awt.Color;
+import java.awt.Font;
 
 public class Frame extends JFrame {
 
 	private JPanel contentPane;
 	private JTable table;
+	private JTable tableDetails;
 	private BooksModel model;
 	private JSpinner spinner;
 
@@ -81,8 +83,13 @@ public class Frame extends JFrame {
 		model = new BooksModel();
 
 		table = new JTable(model);
+		tableDetails = new JTable(model);
+		
 		table.setRowSelectionAllowed(true);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		
+		tableDetails.setRowSelectionAllowed(true);
+		tableDetails.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		String dir = System.getProperty("user.dir");
 		JFileChooser fileChososer = new JFileChooser(dir);
@@ -151,6 +158,9 @@ public class Frame extends JFrame {
 		JScrollPane scrollPaneList = new JScrollPane(table);
 		scrollPaneList.setLocation(120, 10);
 		scrollPaneList.setSize(800, 620);
+		JScrollPane scrollPaneDetails = new JScrollPane(tableDetails);
+		scrollPaneList.setLocation(120, 10);
+		scrollPaneList.setSize(800, 620);
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -159,27 +169,38 @@ public class Frame extends JFrame {
 				JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent
 						.getSource();
 				int index = sourceTabbedPane.getSelectedIndex();
-
 				if (sourceTabbedPane.getTitleAt(index).equals("List view")) {
 					model.render();
 
 				} else if (sourceTabbedPane.getTitleAt(index).equals(
 						"Details view")) {
+
 					model.renderSelected(table.getSelectedRows());
 				}
 			}
 		};
 
-		tabbedPane.addChangeListener(changeListener);
+		
 
 		tabbedPane.setTabPlacement(JTabbedPane.BOTTOM);
 		tabbedPane.setBounds(120, 10, 800, 640);
 		tabbedPane.addTab("List view", scrollPaneList);
-		tabbedPane.addTab("Details view", null);// use null because I use same
-												// scrollPane, table and model.
+		tabbedPane.addTab("Details view", scrollPaneDetails);
 
 		contentPane.add(tabbedPane);
+		
+		
+		JPanel reportView = new JPanel();
+		tabbedPane.addTab("Report View", null, reportView, null);
+		reportView.setLayout(null);
+		
+		JLabel lblTotalNumberOf = new JLabel("Total number of books:");
+		lblTotalNumberOf.setBounds(10, 11, 144, 17);
+		lblTotalNumberOf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		reportView.add(lblTotalNumberOf);
 
+		tabbedPane.addChangeListener(changeListener);
+		
 		spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
 		spinner.setBounds(10, 113, 89, 20);
 		contentPane.add(spinner);
@@ -210,11 +231,11 @@ public class Frame extends JFrame {
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				model.addBook(addDialog);
 			}
 		});
 		btnAdd.setBounds(10, 212, 89, 23);
 		contentPane.add(btnAdd);
-
 	}
 }

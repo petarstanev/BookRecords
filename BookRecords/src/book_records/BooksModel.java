@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class BooksModel extends DefaultTableModel {
-	private ArrayList<Book> allRows;
+	private static ArrayList<Book> allRows;
 
 	public BooksModel() {
 		super();
