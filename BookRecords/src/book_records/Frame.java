@@ -44,6 +44,7 @@ import javax.swing.JPopupMenu;
 
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class Frame extends JFrame {
 
@@ -84,12 +85,13 @@ public class Frame extends JFrame {
 
 		table = new JTable(model);
 		tableDetails = new JTable(model);
-		
+
 		table.setRowSelectionAllowed(true);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		
+
 		tableDetails.setRowSelectionAllowed(true);
-		tableDetails.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		tableDetails
+				.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 
 		String dir = System.getProperty("user.dir");
 		JFileChooser fileChososer = new JFileChooser(dir);
@@ -164,6 +166,53 @@ public class Frame extends JFrame {
 
 		JTabbedPane tabbedPane = new JTabbedPane();
 
+		JPanel reportView = new JPanel();
+
+		reportView.setLayout(null);
+
+		JLabel numberOfBooks = new JLabel("Total number of books:");
+		numberOfBooks.setBounds(10, 11, 775, 17);
+		numberOfBooks.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		reportView.add(numberOfBooks);
+
+		JLabel numberBooksPerType = new JLabel("Number books per type:");
+		numberBooksPerType.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		numberBooksPerType.setBounds(10, 39, 775, 17);
+		reportView.add(numberBooksPerType);
+
+		JLabel fictional = new JLabel("Fictional: ");
+		fictional.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		fictional.setBounds(41, 68, 775, 17);
+		reportView.add(fictional);
+
+		JLabel hisotry = new JLabel("History: ");
+		hisotry.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		hisotry.setBounds(41, 96, 775, 17);
+		reportView.add(hisotry);
+
+		JLabel textBook = new JLabel("Text Book: ");
+		textBook.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		textBook.setBounds(41, 124, 775, 17);
+
+		reportView.add(textBook);
+
+		JLabel namesOfAllArtists = new JLabel("Names of all artists: ");
+		namesOfAllArtists.setVerticalAlignment(SwingConstants.TOP);
+		namesOfAllArtists.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		namesOfAllArtists.setBounds(10, 152, 775, 78);
+		reportView.add(namesOfAllArtists);
+
+		JLabel totalValue = new JLabel("Total value:");
+		totalValue.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		totalValue.setBounds(10, 241, 775, 17);
+		reportView.add(totalValue);
+		
+		JLabel timeOfAllBooks = new JLabel("Time of all books: ");
+		timeOfAllBooks.setVerticalAlignment(SwingConstants.TOP);
+		timeOfAllBooks.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		timeOfAllBooks.setBounds(10, 269, 775, 78);
+		reportView.add(timeOfAllBooks);
+
 		ChangeListener changeListener = new ChangeListener() {
 			public void stateChanged(ChangeEvent changeEvent) {
 				JTabbedPane sourceTabbedPane = (JTabbedPane) changeEvent
@@ -174,33 +223,36 @@ public class Frame extends JFrame {
 
 				} else if (sourceTabbedPane.getTitleAt(index).equals(
 						"Details view")) {
-
 					model.renderSelected(table.getSelectedRows());
+				} else {
+					numberOfBooks.setText(numberBooksPerType.getText() + " "
+							+ model.getNumberOfBooks());
+					fictional.setText("Fictional: "
+							+ model.getBooksByType("Fictional Book"));
+					hisotry.setText("History: "
+							+ model.getBooksByType("Hisotry Book"));
+					textBook.setText("Text Book: "
+							+ model.getBooksByType("Text Book"));
+					namesOfAllArtists.setText("Names of all artists: "
+							+ model.getNamesOfArtists());
+					totalValue.setText("Total value: " + model.getTotalValue());
+					timeOfAllBooks.setText("Time of all books: " + model.getAllTimes());
+
 				}
 			}
 		};
-
-		
 
 		tabbedPane.setTabPlacement(JTabbedPane.BOTTOM);
 		tabbedPane.setBounds(120, 10, 800, 640);
 		tabbedPane.addTab("List view", scrollPaneList);
 		tabbedPane.addTab("Details view", scrollPaneDetails);
-
+		tabbedPane.addTab("Report View", reportView);
 		contentPane.add(tabbedPane);
-		
-		
-		JPanel reportView = new JPanel();
-		tabbedPane.addTab("Report View", null, reportView, null);
-		reportView.setLayout(null);
-		
-		JLabel lblTotalNumberOf = new JLabel("Total number of books:");
-		lblTotalNumberOf.setBounds(10, 11, 144, 17);
-		lblTotalNumberOf.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		reportView.add(lblTotalNumberOf);
+
+	
 
 		tabbedPane.addChangeListener(changeListener);
-		
+
 		spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
 		spinner.setBounds(10, 113, 89, 20);
 		contentPane.add(spinner);
@@ -231,7 +283,7 @@ public class Frame extends JFrame {
 		JButton btnAdd = new JButton("Add");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				model.addBook(addDialog);
 			}
 		});

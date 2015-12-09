@@ -10,7 +10,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 public class BooksModel extends DefaultTableModel {
-	private static ArrayList<Book> allRows;
+	private ArrayList<Book> allRows;
 
 	public BooksModel() {
 		super();
@@ -121,17 +121,17 @@ public class BooksModel extends DefaultTableModel {
 			addRow(row);
 		}
 	}
-	
+
 	public void renderSelected(int[] selectedRows) {
 		setRowCount(0);
 		int i = 1;
-				
+
 		for (int j : selectedRows) {
 			String[] row = allRows.get(j).getBookAsRow();
 			row[0] = String.valueOf(i);
 			addRow(row);
 			i++;
-		}		
+		}
 	}
 
 	public Book getBook(int position) {
@@ -153,6 +153,61 @@ public class BooksModel extends DefaultTableModel {
 		}
 		render();
 	}
-	
 
+	public int getNumberOfBooks() {
+		return allRows.size();
+	}
+
+	public int getBooksByType(String type) {
+		int booksByType = 0;
+
+		for (Book book : allRows) {
+			if (book.getType().equals(type))
+				booksByType++;
+		}
+		return booksByType;
+	}
+
+	public String getNamesOfArtists() {
+		ArrayList<String> artists = new ArrayList<String>();
+		String output = "";
+
+		for (Book book : allRows) {
+			String author = book.getAuthor();
+
+			if (!artists.contains(author)) {
+				artists.add(author);
+				output += author + "  ";
+			}
+		}
+
+		return output;
+	}
+
+	public String getAllTimes() {
+		ArrayList<String> artists = new ArrayList<String>();
+		String output = "";
+
+		for (Book book : allRows) {
+			String date = book.getPublicationDateAsString();
+
+			if (!artists.contains(date)) {
+				artists.add(date);
+				output += date + "  ";
+			}
+		}
+
+		return output;
+	}
+
+	public float getTotalValue() {
+
+		float totalValue = 0;
+
+		for (Book book : allRows) {
+			totalValue += book.getPrice();
+		}
+
+		return totalValue;
+	}
 }

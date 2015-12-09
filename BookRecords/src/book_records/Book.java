@@ -58,6 +58,11 @@ public abstract class Book {
 		return publicationDate;
 	}
 
+	public String getPublicationDateAsString() {
+		SimpleDateFormat fmt = new SimpleDateFormat("d-M-yyyy");
+	    return fmt.format(publicationDate.getTime());
+	}
+	
 	public double getPrice() {
 		return price;
 	}
