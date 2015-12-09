@@ -107,10 +107,6 @@ public class BooksModel extends DefaultTableModel {
 		render();
 	}
 
-	public void addBook(EditDialog addDialog) {
-
-	}
-
 	public void render() {
 		setRowCount(0);
 
@@ -139,19 +135,26 @@ public class BooksModel extends DefaultTableModel {
 	}
 
 	public void addBook(ModalDialog addDialog) {
-		addDialog.setVisible(true);
-		if (!addDialog.isCloseButton()) {
-			String[] output = addDialog.getValues();
-
-			try {
-				Book addedBoook = chooseBook(output);
-				allRows.add(addedBoook);
-			} catch (ParseException e) {
-				e.printStackTrace();
+		if (allRows.size() > 0) {
+			addDialog.setVisible(true);
+			if (!addDialog.isCloseButton()) {
+				String[] output = addDialog.getValues();
+				for (int i = 0; i < output.length; i++) {
+				//	if(output[i]==null){
+				//		System.out.println(output[i]);
+					//}
+				}
+				
+				try {
+					Book addedBoook = chooseBook(output);
+					allRows.add(addedBoook);
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+				addDialog.setCloseButton(true);
 			}
-			addDialog.setCloseButton(true);
+			render();
 		}
-		render();
 	}
 
 	public int getNumberOfBooks() {

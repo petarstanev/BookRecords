@@ -123,23 +123,24 @@ public class Frame extends JFrame {
 		JButton btnSave = new JButton("Save");
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					FileWriter writer = new FileWriter(fileChososer
-							.getSelectedFile());
-					for (int i = 0; i < model.getRowCount(); i++) {
-						String appender = "";
-						for (int j = 1; j < model.getColumnCount(); j++) {
-							writer.write(appender
-									+ (String) table.getValueAt(i, j));
-							appender = ",";
+				if (model.getRowCount() > 0) {
+					try {
+						FileWriter writer = new FileWriter(fileChososer
+								.getSelectedFile());
+						for (int i = 0; i < model.getRowCount(); i++) {
+							String appender = "";
+							for (int j = 1; j < model.getColumnCount(); j++) {
+								writer.write(appender
+										+ (String) table.getValueAt(i, j));
+								appender = ",";
+							}
+							writer.write("\n");
+							writer.flush();
 						}
-						writer.write("\n");
-						writer.flush();
+						writer.close();
+					} catch (IOException e1) {
+						e1.printStackTrace();
 					}
-					writer.close();
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
 				}
 			}
 		});
@@ -206,7 +207,7 @@ public class Frame extends JFrame {
 		totalValue.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		totalValue.setBounds(10, 241, 775, 17);
 		reportView.add(totalValue);
-		
+
 		JLabel timeOfAllBooks = new JLabel("Time of all books: ");
 		timeOfAllBooks.setVerticalAlignment(SwingConstants.TOP);
 		timeOfAllBooks.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -236,7 +237,8 @@ public class Frame extends JFrame {
 					namesOfAllArtists.setText("Names of all artists: "
 							+ model.getNamesOfArtists());
 					totalValue.setText("Total value: " + model.getTotalValue());
-					timeOfAllBooks.setText("Time of all books: " + model.getAllTimes());
+					timeOfAllBooks.setText("Time of all books: "
+							+ model.getAllTimes());
 
 				}
 			}
@@ -248,8 +250,6 @@ public class Frame extends JFrame {
 		tabbedPane.addTab("Details view", scrollPaneDetails);
 		tabbedPane.addTab("Report View", reportView);
 		contentPane.add(tabbedPane);
-
-	
 
 		tabbedPane.addChangeListener(changeListener);
 

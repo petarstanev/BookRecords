@@ -1,4 +1,5 @@
 package book_records;
+
 import java.awt.List;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -16,18 +17,26 @@ public abstract class Book {
 	private Date publicationDate;
 	private float price;
 	private String type;
-	
-	public Book(String[] line) throws ParseException{
+
+	public Book(String[] line) throws ParseException {
 		name = line[0];
-		author= line[1];
+		author = line[1];
 		publisher = line[2];
-		
 		setPublicationDate(line[3]);
-		
 		type = line[4];
-		price = Float.parseFloat(line[6]);
+		setPrice(line[6]);
+		System.out.println();
 	}
-	
+
+	public void setPrice(String price) {
+		System.out.println(price);
+		try {
+			System.out.println(Float.parseFloat(price));
+			this.price = Float.parseFloat(price);
+		} catch (Exception e) {
+			this.price = 0.0f;
+		}
+	}
 
 	public String getName() {
 		return name;
@@ -53,16 +62,15 @@ public abstract class Book {
 		this.publisher = publisher;
 	}
 
-
 	public Date getPublicationDate() {
 		return publicationDate;
 	}
 
 	public String getPublicationDateAsString() {
 		SimpleDateFormat fmt = new SimpleDateFormat("d-M-yyyy");
-	    return fmt.format(publicationDate.getTime());
+		return fmt.format(publicationDate.getTime());
 	}
-	
+
 	public double getPrice() {
 		return price;
 	}
@@ -70,12 +78,12 @@ public abstract class Book {
 	public void setPrice(float price) {
 		this.price = price;
 	}
-	
-	public String[] getBookAsRow(){
-	    String dateFormatted = publicationDateAsString(publicationDate);
-	    
-		return new String[] {null, name, author, publisher,
-				dateFormatted,null,null, Float.toString(price)};
+
+	public String[] getBookAsRow() {
+		String dateFormatted = publicationDateAsString(publicationDate);
+
+		return new String[] { null, name, author, publisher, dateFormatted,
+				null, null, Float.toString(price) };
 	}
 
 	public String getType() {
@@ -86,28 +94,27 @@ public abstract class Book {
 		this.type = type;
 	}
 
-
 	public void setPublicationDate(Date publicationDate) {
 		this.publicationDate = publicationDate;
 	}
-	
+
 	public void setPublicationDate(String publicationDateString) {
 		SimpleDateFormat fmt = new SimpleDateFormat("d-M-yyyy");
-		
+
 		try {
 			publicationDate = fmt.parse(publicationDateString);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			publicationDate = new Date(0, 0, 0);
 		}
 	}
-	
-	public static String publicationDateAsString(Date date){
+
+	public static String publicationDateAsString(Date date) {
 		SimpleDateFormat fmt = new SimpleDateFormat("d-M-yyyy");
-	    return fmt.format(date.getTime());
+		return fmt.format(date.getTime());
 	}
-	
-	public static String priceAsString(double price){
-		DecimalFormat decimalFormat = new DecimalFormat("#.##");  
+
+	public static String priceAsString(double price) {
+		DecimalFormat decimalFormat = new DecimalFormat("#.##");
 		return String.valueOf(decimalFormat.format(price));
 	}
 }
