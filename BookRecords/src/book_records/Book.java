@@ -10,7 +10,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public abstract class Book {
+/**
+ * Class Book implements BookInterface. Used by BooksModel.
+ * 
+ * @author Petar Stanev
+ */
+public abstract class Book implements BookInterface {
 	private String name;
 	private String author;
 	private String publisher;
@@ -18,6 +23,12 @@ public abstract class Book {
 	private float price;
 	private String type;
 
+	/**
+	 * Constructor for Book using line array.
+	 * 
+	 * @param line
+	 * @throws ParseException
+	 */
 	public Book(String[] line) throws ParseException {
 		name = line[0];
 		author = line[1];
@@ -27,18 +38,16 @@ public abstract class Book {
 		setPrice(line[6]);
 	}
 
-	public void setPrice(String price) {
-		try {
-			this.price = Float.parseFloat(price);
-		} catch (Exception e) {
-			this.price = 0.0f;
-		}
-	}
-
+	/**
+	 * @return name.
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * set name.
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -47,54 +56,95 @@ public abstract class Book {
 		return author;
 	}
 
+	/**
+	 * set author.
+	 */
 	public void setAuthor(String author) {
 		this.author = author;
 	}
 
+	/**
+	 * @return publisher.
+	 */
 	public String getPublisher() {
 		return publisher;
 	}
 
+	/**
+	 * set publisher.
+	 */
 	public void setPublisher(String publisher) {
 		this.publisher = publisher;
 	}
 
+	/**
+	 * @return publictaionDate as Date.
+	 */
 	public Date getPublicationDate() {
 		return publicationDate;
 	}
 
+	/**
+	 * @return publictaionDate as String.
+	 */
 	public String getPublicationDateAsString() {
 		SimpleDateFormat fmt = new SimpleDateFormat("d-M-yyyy");
 		return fmt.format(publicationDate.getTime());
 	}
 
+	/**
+	 * @return price
+	 */
 	public double getPrice() {
 		return price;
 	}
 
+	/**
+	 * set price from String. If null, set it to 0.0f;
+	 */
+	public void setPrice(String price) {
+		try {
+			this.price = Float.parseFloat(price);
+		} catch (Exception e) {
+			this.price = 0.0f;
+		}
+	}
+
+	/**
+	 * set price from float.
+	 */
 	public void setPrice(float price) {
 		this.price = price;
 	}
 
-	public String[] getBookAsRow() {
-		String dateFormatted = publicationDateAsString(publicationDate);
-
-		return new String[] { null, name, author, publisher, dateFormatted,
-				null, null, Float.toString(price) };
-	}
-
+	/**
+	 * @return type
+	 */
 	public String getType() {
 		return type;
 	}
 
+	/**
+	 * set type
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
 
+	/**
+	 * Set publicationDate from Date
+	 * 
+	 * @param publicationDate
+	 */
 	public void setPublicationDate(Date publicationDate) {
 		this.publicationDate = publicationDate;
 	}
 
+	/**
+	 * Set publicationDate from String. If null set it to 0-0-0.
+	 * 
+	 * @param publicationDate
+	 */
 	public void setPublicationDate(String publicationDateString) {
 		SimpleDateFormat fmt = new SimpleDateFormat("d-M-yyyy");
 
@@ -105,13 +155,21 @@ public abstract class Book {
 		}
 	}
 
-	public static String publicationDateAsString(Date date) {
-		SimpleDateFormat fmt = new SimpleDateFormat("d-M-yyyy");
-		return fmt.format(date.getTime());
-	}
-
-	public static String priceAsString(double price) {
+	/**
+	 * @return price as String.
+	 */
+	public String getPriceAsString() {
 		DecimalFormat decimalFormat = new DecimalFormat("#.##");
 		return String.valueOf(decimalFormat.format(price));
+	}
+
+	/**
+	 * @return Book as a String array;
+	 */
+	public String[] getBookAsRow() {
+		String dateFormatted = getPublicationDateAsString();
+
+		return new String[] { null, name, author, publisher, dateFormatted,
+				null, null, getPriceAsString() };
 	}
 }

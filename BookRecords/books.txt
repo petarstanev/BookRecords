@@ -1,3 +1,3 @@
-To Kill A Mockingbird,Harper Lee,Amazon,10-1-1930,Fictional Book,Literary Fiction,0.0
-Objects First with Java,David J. Barnes,Amazon,1-9-2011,Text Book,Programming,0.0
-,,,31-12-1899,Fictional Book,,0.0
+To Kill A Mockingbird,Harper Lee,Amazon,10-1-1930,Fictional Book,Literary Fiction,13.4
+Objects First with Java,David J. Barnes,Amazon,1-9-2011,Text Book,Programming,7.4
+,,,31-12-1899,Fictional Book,,0

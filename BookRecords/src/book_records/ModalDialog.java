@@ -27,6 +27,11 @@ import java.text.SimpleDateFormat;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+/**
+ * ModalDialog extends Jdialog and it is used for add and edit buttons.
+ * 
+ * @author Petar Stanev
+ */
 public class ModalDialog extends JDialog {
 	private JTextField textName;
 	private JTextField textAuthor;
@@ -37,18 +42,24 @@ public class ModalDialog extends JDialog {
 	private JTextField textPrice;
 	private boolean closeButton;
 
-	public ModalDialog(JFrame jframe, String title, String message) {
+	/**
+	 * Create ModalDialog pass  JFrame, title and buttonMessage .
+	 * @param jframe
+	 * @param title
+	 * @param buttonMessage
+	 */
+	public ModalDialog(JFrame jframe, String title, String buttonMessage) {
 		
 		super(jframe, title, true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		closeButton=true;
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		JPanel buttonPane = new JPanel();
-		JButton button = new JButton(message);
+		JButton button = new JButton(buttonMessage);
 
 		buttonPane.add(button);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				closeButton=false;
 				dispose();
 			}
 		});
@@ -109,18 +120,28 @@ public class ModalDialog extends JDialog {
 		textPrice.setColumns(10);
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 740, 159);
 	}
 
+	/**
+	 * set closeButton. Used if use chose to close the ModalDialog.
+	 * @param closeButton
+	 */
 	public void setCloseButton(boolean closeButton) {
 		this.closeButton = closeButton;
 	}
 
+	/**
+	 * @return closeButton
+	 */
 	public boolean isCloseButton() {
 		return closeButton;
 	}
 
+	/**
+	 * 
+	 * @return String[] of the values of all inputs.
+	 */
 	public String[] getValues(){
 		String[] output = new String[7];
 		output[0]=textName.getText();
@@ -130,9 +151,13 @@ public class ModalDialog extends JDialog {
 		output[4]=comboBoxType.getSelectedItem().toString();
 		output[5]=textSpecificDetail.getText();
 		output[6]=textPrice.getText();
-		return output;		
+		return output;
 	}
 
+	/**
+	 * Set values of the of text boxes to 
+	 * @param book
+	 */
 	public void setValues(Book book) {
 		textName.setText(book.getName());
 		textAuthor.setText(book.getAuthor());
@@ -140,11 +165,11 @@ public class ModalDialog extends JDialog {
 		textPublisher.setText(book.getPublisher());
 		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
 		
-		textPublicationDate.setText(Book.publicationDateAsString(book.getPublicationDate()));
+		textPublicationDate.setText(book.getPublicationDateAsString());
 		
 		comboBoxType.setSelectedItem(book.getType());
 		
-		textPrice.setText(Book.priceAsString(book.getPrice()));
+		textPrice.setText(book.getPriceAsString());
 		
 		if(book instanceof FictionalBook){
 			textSpecificDetail.setText(((FictionalBook) book).getGenre());

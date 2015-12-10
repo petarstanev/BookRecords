@@ -9,9 +9,18 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * BooksModel is used from Frame as table and it is extended from
+ * DefaultTableModel.
+ * 
+ * @author Petar Stanev
+ */
 public class BooksModel extends DefaultTableModel {
 	private ArrayList<Book> allRows;
 
+	/**
+	 * Constructor for BooksModel.
+	 */
 	public BooksModel() {
 		super();
 		allRows = new ArrayList<Book>();
@@ -21,6 +30,11 @@ public class BooksModel extends DefaultTableModel {
 		setColumnIdentifiers(header);
 	}
 
+	/**
+	 * Add rows from a file using BufferReader.
+	 * 
+	 * @param br
+	 */
 	public void addFromFile(BufferedReader br) {
 		String line = null;
 		allRows.clear();
@@ -35,18 +49,17 @@ public class BooksModel extends DefaultTableModel {
 				allRows.add(book);
 			}
 			render();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ArrayIndexOutOfBoundsException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
+	/**
+	 * Create Book from String array.
+	 * @param info
+	 * @return Book
+	 * @throws ParseException
+	 */
 	private Book chooseBook(String[] info) throws ParseException {
 		Book book;
 		switch (info[4]) {
@@ -68,25 +81,31 @@ public class BooksModel extends DefaultTableModel {
 		return book;
 	}
 
+	/**
+	 * Create all cells not editable.
+	 */
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		// all cells false
 		return false;
 	}
 
+	/**
+	 * Remove book by row.
+	 * @param row
+	 */
 	public void removeBook(int row) {
 		int index = (row - 1);
 		if (allRows.size() > index) {
 			allRows.remove(index);
-			for (int i = index; i < allRows.size(); i++) {
-				// every next row must decrease row number by one.
-				// allRows.get(i).setRowNumber(allRows.get(i).getRowNumber() -
-				// 1);
-			}
 		}
 		render();
 	}
 
+	/**
+	 * Edit book by row and ModalDDailog.
+	 * @param row
+	 * @param editDialog
+	 */
 	public void editBook(int row, ModalDialog editDialog) {
 		int index = (row - 1);
 		if (getRowCount() >= row) {
@@ -108,6 +127,9 @@ public class BooksModel extends DefaultTableModel {
 		render();
 	}
 
+	/**
+	 * Render all rows from allRows array. Used by List view.
+	 */
 	public void render() {
 		setRowCount(0);
 
@@ -119,6 +141,10 @@ public class BooksModel extends DefaultTableModel {
 		}
 	}
 
+	/**
+	 * Render selected rows from allRows array. Used by Detailed view.
+	 * @param selectedRows
+	 */
 	public void renderSelected(int[] selectedRows) {
 		setRowCount(0);
 		int i = 1;
@@ -131,21 +157,30 @@ public class BooksModel extends DefaultTableModel {
 		}
 	}
 
+	/**
+	 * Get Book from position.
+	 * @param position
+	 * @return
+	 */
 	public Book getBook(int position) {
 		return allRows.get(position);
 	}
 
+	/**
+	 * Add Book form ModalDialog.
+	 * @param addDialog
+	 */
 	public void addBook(ModalDialog addDialog) {
 		if (allRows.size() > 0) {
 			addDialog.setVisible(true);
 			if (!addDialog.isCloseButton()) {
 				String[] output = addDialog.getValues();
 				for (int i = 0; i < output.length; i++) {
-				//	if(output[i]==null){
-				//		System.out.println(output[i]);
-					//}
+					// if(output[i]==null){
+					// System.out.println(output[i]);
+					// }
 				}
-				
+
 				try {
 					Book addedBoook = chooseBook(output);
 					allRows.add(addedBoook);
@@ -158,10 +193,18 @@ public class BooksModel extends DefaultTableModel {
 		}
 	}
 
+	/**
+	 * Get number of all Books in allRows.
+	 */
 	public int getNumberOfBooks() {
 		return allRows.size();
 	}
 
+	/**
+	 * Get number of all Books in allRows by specific type.
+	 * @param type
+	 * @return
+	 */
 	public int getBooksByType(String type) {
 		int booksByType = 0;
 
@@ -172,6 +215,9 @@ public class BooksModel extends DefaultTableModel {
 		return booksByType;
 	}
 
+	/**
+	 * Get all unique Names of artist as String ArrayList.
+	 */
 	public String getNamesOfArtists() {
 		ArrayList<String> artists = new ArrayList<String>();
 		String output = "";
@@ -188,6 +234,10 @@ public class BooksModel extends DefaultTableModel {
 		return output;
 	}
 
+	/**
+	 * Get all unique times as String ArrayList.
+	 * @return
+	 */
 	public String getAllTimes() {
 		ArrayList<String> artists = new ArrayList<String>();
 		String output = "";
@@ -204,6 +254,9 @@ public class BooksModel extends DefaultTableModel {
 		return output;
 	}
 
+	/**
+	 * Get total value of all books.
+	 */
 	public float getTotalValue() {
 
 		float totalValue = 0;

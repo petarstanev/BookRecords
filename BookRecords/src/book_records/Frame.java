@@ -46,8 +46,12 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
+/**
+ * Create the Frame and all components.
+ * 
+ * @author Petar Stanev
+ */
 public class Frame extends JFrame {
-
 	private JPanel contentPane;
 	private JTable table;
 	private JTable tableDetails;
@@ -71,7 +75,7 @@ public class Frame extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the frame and all components on it.
 	 */
 	public Frame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
