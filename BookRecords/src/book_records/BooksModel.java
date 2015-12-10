@@ -23,6 +23,7 @@ public class BooksModel extends DefaultTableModel {
 
 	public void addFromFile(BufferedReader br) {
 		String line = null;
+		allRows.clear();
 		try {
 			while ((line = br.readLine()) != null) {
 				String inputRow[] = line.split(",");

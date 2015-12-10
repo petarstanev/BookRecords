@@ -25,13 +25,10 @@ public abstract class Book {
 		setPublicationDate(line[3]);
 		type = line[4];
 		setPrice(line[6]);
-		System.out.println();
 	}
 
 	public void setPrice(String price) {
-		System.out.println(price);
 		try {
-			System.out.println(Float.parseFloat(price));
 			this.price = Float.parseFloat(price);
 		} catch (Exception e) {
 			this.price = 0.0f;

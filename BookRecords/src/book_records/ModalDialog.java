@@ -66,7 +66,8 @@ public class ModalDialog extends JDialog {
 		JLabel lblPublisher = new JLabel("Publisher");
 		panel.add(lblPublisher);
 
-		JLabel lblPublicationDate = new JLabel("<html>Publication date</html>");
+		JLabel lblPublicationDate = new JLabel("<html>Publication date (27-12-2000)</html>");
+		lblPublicationDate.setToolTipText("");
 		panel.add(lblPublicationDate);
 
 		JLabel lblType = new JLabel("Type");
@@ -75,7 +76,7 @@ public class ModalDialog extends JDialog {
 		JLabel lblNewLabel = new JLabel("Specific detail");
 		panel.add(lblNewLabel);
 
-		JLabel lblPrice = new JLabel("Price");
+		JLabel lblPrice = new JLabel("Price (12.4)");
 		panel.add(lblPrice);
 
 		textName = new JTextField();
@@ -109,7 +110,7 @@ public class ModalDialog extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 700, 159);
+		setBounds(100, 100, 740, 159);
 	}
 
 	public void setCloseButton(boolean closeButton) {
