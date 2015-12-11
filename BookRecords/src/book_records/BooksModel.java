@@ -175,11 +175,6 @@ public class BooksModel extends DefaultTableModel {
 			addDialog.setVisible(true);
 			if (!addDialog.isCloseButton()) {
 				String[] output = addDialog.getValues();
-				for (int i = 0; i < output.length; i++) {
-					// if(output[i]==null){
-					// System.out.println(output[i]);
-					// }
-				}
 
 				try {
 					Book addedBoook = chooseBook(output);

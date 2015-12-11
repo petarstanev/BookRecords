@@ -60,6 +60,7 @@ public class ModalDialog extends JDialog {
 		buttonPane.add(button);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				closeButton=false;
 				dispose();
 			}
 		});
@@ -155,7 +156,7 @@ public class ModalDialog extends JDialog {
 	}
 
 	/**
-	 * Set values of the of text boxes to 
+	 * Set values of the of text boxes from Book.
 	 * @param book
 	 */
 	public void setValues(Book book) {
