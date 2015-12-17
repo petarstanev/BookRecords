@@ -1,3 +1,10 @@
-To Kill A Mockingbird,Harper Lee,Amazon,10-1-1930,Fictional Book,Literary Fiction,13.4
-Objects First with Java,David J. Barnes,Amazon,1-9-2011,Text Book,Programming,7.4
-,,,31-12-1899,Fictional Book,,0
+To Kill A Mockingbird,Harper Lee,Arrow,11-06-1960,Fictional Book,Literary Fiction,10
+The Martian,Andy Weir,Del Rey,27-08-2015,Fictional Book,sci-fi,12.4
+Objects First with Java,David J. Barnes,Pearson,01-09-2011,Text Book,Programming,20
+Alan Turing: The Enigma, Andrew Hodges,Vintage , 13-11-2014,History Book,Modern history, 7.23
+The Lord of The Rings,J. R. R. Tolkien,HarperCollins, 29-6-1954,Fictional Book,Fantasy,10
+A history of Ancient Rome,Mary Beard,Profile Books, 20-10-2015,History Book,Ancient history, 14.23
+1984,George Orwell,Penguin Classics, 8-6-1949,Fictional Book,Political Fiction,9.30
+Data Mining: Practical Machine,Ian H. Witten,Morgan Kaufmann,6-1-2011,Text Book,Data Mining,27.3
+CATCH-22, Joseph Heller,Vintage, 6-10-1994,Fictional Book, Historical fiction, 5.40
+Agile Software Development with SCRUM,Ken Schwaber ,Pearson,11-10-2001,Text Book,Agile Programming,31
