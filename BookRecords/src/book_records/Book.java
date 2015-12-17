@@ -169,7 +169,7 @@ public abstract class Book implements BookInterface {
 	public String[] getBookAsRow() {
 		String dateFormatted = getPublicationDateAsString();
 
-		return new String[] { null, name, author, publisher, dateFormatted,
+		return new String[] { name, author, publisher, dateFormatted,
 				null, null, getPriceAsString() };
 	}
 }

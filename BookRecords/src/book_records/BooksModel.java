@@ -5,17 +5,21 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
+import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * BooksModel is used from Frame as table and it is extended from
+ * BooksModel is used from Frame as list and it is extended from
  * DefaultTableModel.
  * 
  * @author Petar Stanev
  */
-public class BooksModel extends DefaultTableModel {
+public class BooksModel extends DefaultListModel<String> {
 	private ArrayList<Book> allRows;
 
 	/**
@@ -24,10 +28,6 @@ public class BooksModel extends DefaultTableModel {
 	public BooksModel() {
 		super();
 		allRows = new ArrayList<Book>();
-		String header[] = new String[] { "#", "Name", "Author", "Publisher",
-				"Publication date", "Type", "Specific detail", "Price" };
-
-		setColumnIdentifiers(header);
 	}
 
 	/**
@@ -56,6 +56,7 @@ public class BooksModel extends DefaultTableModel {
 
 	/**
 	 * Create Book from String array.
+	 * 
 	 * @param info
 	 * @return Book
 	 * @throws ParseException
@@ -82,15 +83,8 @@ public class BooksModel extends DefaultTableModel {
 	}
 
 	/**
-	 * Create all cells not editable.
-	 */
-	@Override
-	public boolean isCellEditable(int row, int column) {
-		return false;
-	}
-
-	/**
 	 * Remove book by row.
+	 * 
 	 * @param row
 	 */
 	public void removeBook(int row) {
@@ -103,26 +97,25 @@ public class BooksModel extends DefaultTableModel {
 
 	/**
 	 * Edit book by row and ModalDDailog.
+	 * 
 	 * @param row
 	 * @param editDialog
 	 */
 	public void editBook(int row, ModalDialog editDialog) {
 		int index = (row - 1);
-		if (getRowCount() >= row) {
 
-			editDialog.setValues(getBook(index));
-			editDialog.setVisible(true);
-			if (!editDialog.isCloseButton()) {
-				String[] output = editDialog.getValues();
+		editDialog.setValues(getBook(index));
+		editDialog.setVisible(true);
+		if (!editDialog.isCloseButton()) {
+			String[] output = editDialog.getValues();
 
-				try {
-					Book editedBoook = chooseBook(output);
-					allRows.set(index, editedBoook);
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
-				editDialog.setCloseButton(true);
+			try {
+				Book editedBoook = chooseBook(output);
+				allRows.set(index, editedBoook);
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
+			editDialog.setCloseButton(true);
 		}
 		render();
 	}
@@ -131,34 +124,36 @@ public class BooksModel extends DefaultTableModel {
 	 * Render all rows from allRows array. Used by List view.
 	 */
 	public void render() {
-		setRowCount(0);
-
+		removeAllElements();
+		addElement("asd");
 		for (int i = 0; i < allRows.size(); i++) {
-
-			String[] row = allRows.get(i).getBookAsRow();
-			row[0] = String.valueOf(i + 1);
-			addRow(row);
+			addElement(allRows.get(i).getName());
 		}
 	}
 
+	public String[] getSelected(int selectedRow) {
+		return allRows.get(selectedRow).getBookAsRow();
+	}
+
 	/**
-	 * Render selected rows from allRows array. Used by Detailed view.
+	 * Render rows where date is between selected. Used by Detailed view.
+	 * 
 	 * @param selectedRows
 	 */
-	public void renderSelected(int[] selectedRows) {
-		setRowCount(0);
-		int i = 1;
+	public void renderSelected(Date startDate, Date endDate) {
+		removeAllElements();
 
-		for (int j : selectedRows) {
-			String[] row = allRows.get(j).getBookAsRow();
-			row[0] = String.valueOf(i);
-			addRow(row);
-			i++;
+		for (int i = 0; i < allRows.size(); i++) {
+			Date bookDate = allRows.get(i).getPublicationDate();
+			if (bookDate.after(startDate) && bookDate.before(endDate)) {
+				addElement(allRows.get(i).getName());
+			}
 		}
 	}
 
 	/**
 	 * Get Book from position.
+	 * 
 	 * @param position
 	 * @return
 	 */
@@ -168,6 +163,7 @@ public class BooksModel extends DefaultTableModel {
 
 	/**
 	 * Add Book form ModalDialog.
+	 * 
 	 * @param addDialog
 	 */
 	public void addBook(ModalDialog addDialog) {
@@ -197,6 +193,7 @@ public class BooksModel extends DefaultTableModel {
 
 	/**
 	 * Get number of all Books in allRows by specific type.
+	 * 
 	 * @param type
 	 * @return
 	 */
@@ -231,6 +228,7 @@ public class BooksModel extends DefaultTableModel {
 
 	/**
 	 * Get all unique times as String ArrayList.
+	 * 
 	 * @return
 	 */
 	public String getAllTimes() {
@@ -261,5 +259,17 @@ public class BooksModel extends DefaultTableModel {
 		}
 
 		return totalValue;
+	}
+
+	@Override
+	public int getSize() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public Object getElementAt(int index) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
